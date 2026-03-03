@@ -1,1 +1,90 @@
-# SCRIPT-SLAP-NO-RESPAWN
+local Players = game:GetService("Players")
+local Debris = game:GetService("Debris")
+local StarterGui = game:GetService("StarterGui")
+local lp = Players.LocalPlayer
+
+-- Notifikasi
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "SCRIPT SLAP NO RESPAWN",
+        Text = "MADE BY AMDZY_1",
+        Duration = 6
+    })
+end)
+
+-- Knockback Function (arah dominan ke atas, aman)
+local function applyKnockback(target)
+    local hrp = target:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    for _, v in pairs(hrp:GetChildren()) do  
+        if v:IsA("BodyVelocity") or v:IsA("BodyGyro") or v:IsA("VectorForce") or v:IsA("AlignPosition") then  
+            v:Destroy()  
+        end  
+    end  
+
+    local arah = Vector3.new(math.random(-2, 2), math.random(8, 12), math.random(-2, 2)).Unit
+    local kb = Instance.new("BodyVelocity")  
+    kb.Velocity = arah * 9e13  -- Power 90T  
+    kb.MaxForce = Vector3.new(1e15, 1e15, 1e15)  
+    kb.P = 1e15  
+    kb.Parent = hrp  
+    Debris:AddItem(kb, 0.3)
+end
+
+-- Modifikasi tool
+local function modifySlapTool(tool)
+    if tool:FindFirstChild("Power") then
+        tool.Power.Value = 9e13
+    end
+    if tool:FindFirstChild("Cooldown") then
+        tool.Cooldown.Value = 0
+    end
+
+    tool.Activated:Connect(function()  
+        for _, plr in pairs(Players:GetPlayers()) do  
+            if plr ~= lp and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then  
+                local dist = (plr.Character.HumanoidRootPart.Position - lp.Character.HumanoidRootPart.Position).Magnitude  
+                if dist <= 10 then  
+                    applyKnockback(plr.Character)  
+                end  
+            end  
+        end  
+    end)
+end
+
+-- Cari Tool Slap
+local function getSlapTool()
+    for _, tool in pairs(lp.Backpack:GetChildren()) do
+        if tool:IsA("Tool") and tool.Name:lower():find("slap") then
+            return tool
+        end
+    end
+    local char = lp.Character
+    if char then
+        for _, tool in pairs(char:GetChildren()) do
+            if tool:IsA("Tool") and tool.Name:lower():find("slap") then
+                return tool
+            end
+        end
+    end
+end
+
+-- Auto ulang tiap respawn
+local function setup()
+    local char = lp.Character or lp.CharacterAdded:Wait()
+    task.wait(2)  
+    local tool = getSlapTool()  
+    if tool then  
+        modifySlapTool(tool)  
+        print("Slap tool dimodifikasi ulang setelah respawn.")  
+    end
+end
+
+-- Pertama kali jalan
+setup()
+
+-- Ulang saat respawn
+lp.CharacterAdded:Connect(function()
+    setup()
+end)
