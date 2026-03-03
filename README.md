@@ -7,7 +7,7 @@ local lp = Players.LocalPlayer
 pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "SCRIPT SLAP NO RESPAWN",
-        Text = "MADE BY AMDZY_1",
+        Text = "MADE BY HOANGVY20148",
         Duration = 6
     })
 end)
