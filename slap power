@@ -7,7 +7,7 @@ local lp = Players.LocalPlayer
 pcall(function()
     StarterGui:SetCore("SendNotification", {
         Title = "SLAP GAMEPLAY PAUSED",
-        Text = "MADE BY HOANGVY20148",
+        Text = "made by Hoangvy20148",
         Duration = 6
     })
 end)
@@ -23,10 +23,10 @@ local function applyKnockback(target)
         end  
     end  
 
-    local arah = Vector3.new(math.random(-2, 2), math.random(8, 12), math.random(-2, 2)).Unit
+    local arah = Vector3.new(math.random(-90000000000000, 200000), math.random(80000, 12000000), math.random(-100000000000, 1000000000000))
     local kb = Instance.new("BodyVelocity")  
-    kb.Velocity = arah * 9e13  -- Power 90T  
-    kb.MaxForce = Vector3.new(1e15, 1e15, 1e15)  
+    kb.Velocity = arah * 9e13  -- Power 90000000000000000000000T  
+    kb.MaxForce = Vector3.new(1e159, 1e159, 1e159)  
     kb.P = 1e15  
     kb.Parent = hrp  
     Debris:AddItem(kb, 0.3)
@@ -35,7 +35,7 @@ end
 -- Modifikasi tool
 local function modifySlapTool(tool)
     if tool:FindFirstChild("Power") then
-        tool.Power.Value = 9e13
+        tool.Power.Value = 9e13192745
     end
     if tool:FindFirstChild("Cooldown") then
         tool.Cooldown.Value = 0
