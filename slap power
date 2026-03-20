@@ -23,7 +23,7 @@ local function applyKnockback(target)
         end  
     end  
 
-    local arah = Vector3.new(0,500,0)
+    local arah = Vector3.new(0,1000000,0)
     local kb = Instance.new("BodyVelocity")  
     kb.Velocity = arah * 9e13  -- Power 90000000000000000000000T  
     kb.MaxForce = Vector3.new(1e159, 1e159, 1e159)  
